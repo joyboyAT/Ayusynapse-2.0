@@ -1,0 +1,179 @@
+# Ayusynapse Project
+
+## 🚀 Quick Start
+
+**Clone and setup:**
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/joyboyAT/Ayusynapse-2.0.git
+cd Ayusynapse-2.0
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Download BioBERT models (required!)
+python setup_biobert.py
+
+# 4. Run the application
+python app.py
+```
+
+**First time setup takes 5-10 minutes to download models (~1GB)**
+
+## System Architecture & Data Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          AYUSYNAPSE PIPELINE                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────┐
+│  Patient Input   │
+│  - Clinical Notes│
+│  - EHR Data      │──────┐
+│  - Reports       │      │
+└──────────────────┘      │
+                          ▼
+                ┌──────────────────────┐
+                │  Data Preprocessing  │
+                │  - Text Cleaning     │
+                │  - Tokenization      │
+                │  - Normalization     │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │   BioBERT NER Model  │───────────────────┐
+                │                      │                   │
+                │  Why BioBERT?        │                   │
+                │  ✓ Pre-trained on    │                   │
+                │    PubMed + PMC      │                   │
+                │  ✓ Domain-specific   │                   │
+                │    biomedical vocab  │                   │
+                │  ✓ F1: 0.75-0.90     │                   │
+                │  ✓ Recognizes:       │                   │
+                │    - Diseases        │                   │
+                │    - Medications     │                   │
+                │    - Symptoms        │                   │
+                │    - Procedures      │                   │
+                └──────────┬───────────┘                   │
+                           │                               │
+                           ▼                               │
+                ┌──────────────────────┐                   │
+                │  Named Entities      │                   │
+                │  Extracted           │                   │
+                │  - Cancer types      │                   │
+                │  - Drug names        │                   │
+                │  - Lab values        │                   │
+                └──────────┬───────────┘                   │
+                           │                               │
+                           ▼                               │
+                ┌──────────────────────┐                   │
+                │  Medical Terminology │                   │
+                │  Mapping (UMLS)      │                   │
+                │                      │                   │
+                │  - UMLS CUI mapping  │                   │
+                │  - SNOMED CT codes   │                   │
+                │  - RxNorm (drugs)    │                   │
+                │  - ICD-10 codes      │                   │
+                │                      │                   │
+                │  Purpose:            │                   │
+                │  ✓ Standardization   │                   │
+                │  ✓ Interoperability  │                   │
+                │  ✓ Semantic linking  │                   │
+                └──────────┬───────────┘                   │
+                           │                               │
+                           ▼                               │
+                ┌──────────────────────┐                   │
+                │  Enhanced Patient    │◄──────────────────┘
+                │  Profile Generation  │
+                │                      │
+                │  Structured Data:    │
+                │  - Diagnoses (coded) │
+                │  - Medications       │
+                │  - Allergies         │
+                │  - Lab results       │
+                │  - Treatment history │
+                │  - Risk factors      │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │  FHIR Conversion     │
+                │                      │
+                │  Resources Created:  │
+                │  - Patient           │
+                │  - Condition         │
+                │  - MedicationRequest │
+                │  - Observation       │
+                │  - Procedure         │
+                │                      │
+                │  Why FHIR?           │
+                │  ✓ HL7 standard      │
+                │  ✓ REST API ready    │
+                │  ✓ EHR integration   │
+                │  ✓ JSON format       │
+                └──────────┬───────────┘
+                           │
+                           ▼
+        ┌──────────────────┴──────────────────┐
+        │                                     │
+        ▼                                     ▼
+┌──────────────────┐              ┌──────────────────┐
+│ Clinical Trial   │              │  Treatment       │
+│ Matching API     │              │  Recommendation  │
+│                  │              │  Engine          │
+│ - ClinicalTrials │              │                  │
+│   .gov API       │              │ - Evidence-based │
+│ - Eligibility    │              │   guidelines     │
+│   criteria match │              │ - Drug-drug      │
+│ - Geographic     │              │   interactions   │
+│   filtering      │              │ - Personalized   │
+│ - Phase filtering│              │   protocols      │
+└────────┬─────────┘              └────────┬─────────┘
+         │                                 │
+         │                                 │
+         ▼                                 ▼
+┌─────────────────────────────────────────────────────┐
+│           Clinical Decision Support                 │
+│                                                     │
+│  - Trial recommendations                            │
+│  - Treatment options                                │
+│  - Risk assessments                                 │
+│  - Follow-up protocols                              │
+└───────────────────┬─────────────────────────────────┘
+                    │
+                    ▼
+         ┌──────────────────────┐
+         │  Output Dashboard    │
+         │  - Patient summary   │
+         │  - Matched trials    │
+         │  - Treatment plans   │
+         │  - FHIR export       │
+         └──────────────────────┘
+```
+
+## Technical Stack
+
+| Component        | Technology                       | Purpose                           |
+| ---------------- | -------------------------------- | --------------------------------- |
+| NER Model        | BioBERT (BERT-base + PubMed/PMC) | Domain-specific entity extraction |
+| Terminology      | UMLS, SNOMED CT, RxNorm          | Medical concept standardization   |
+| Interoperability | FHIR R4                          | Healthcare data exchange          |
+| Clinical Trials  | ClinicalTrials.gov API           | Trial matching & recruitment      |
+| Caching          | Redis/In-memory                  | Fast inference & response         |
+| Backend          | Flask/FastAPI                    | REST API endpoints                |
+
+## 📦 What's Included
+
+- ✅ Source code for all components
+- ✅ Setup scripts for automatic model download
+- ✅ Sample data and test cases
+- ✅ Documentation and API guides
+- ❌ Pre-trained models (download via `setup_biobert.py`)
+- ❌ Cache files (auto-generated)
+
+## Latest Steps Completed
+
+// ...existing code...

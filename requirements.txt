@@ -1,0 +1,22 @@
+# Core dependencies
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# BioBERT and NLP
+torch>=2.0.0
+transformers>=4.30.0
+tokenizers>=0.13.0
+
+# Medical NLP
+scispacy>=0.5.0
+spacy>=3.5.0
+
+# Data processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# FHIR support
+fhirclient>=4.1.0
+
+# Optional: For GPU support
+# torch-cuda>=2.0.0  # Uncomment if using CUDA
