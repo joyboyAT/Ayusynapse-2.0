@@ -1,0 +1,51 @@
+===================== MODEL TRAINING REPORT =====================
+
+📂 Dataset Summary
+------------------------------------------------------------
+Loaded entries from JSON: 611
+Patients feature matrix shape : (71, 9)
+Trials feature matrix shape   : (461, 9)
+
+🧠 Model Information
+------------------------------------------------------------
+Algorithm Used: XGBoost Classifier (optimized for clinical trial matching)
+Purpose       : To classify patient-trial compatibility based on textual embeddings and feature representations.
+Frameworks    : scikit-learn, XGBoost, SentenceTransformers
+
+📊 Evaluation Metrics
+------------------------------------------------------------
+Classification Report:
+
+              precision    recall  f1-score   support
+
+           0      0.614     0.986     0.757        71
+           1      0.625     0.227     0.333        22
+           2      1.000     0.033     0.065        30
+
+    accuracy                          0.618       123
+   macro avg      0.746     0.416     0.385       123
+weighted avg      0.710     0.618     0.512       123
+
+✅ Model saved successfully to: C:\AyuSynapse\final_classifier.pkl
+
+🧩 Interpretation
+------------------------------------------------------------
+Class 0[excluded]  → Represents correct or matching pairs, showing high recall (0.986), meaning the model correctly identifies most of the valid matches.
+Class 1[not_relevant]  → Represents potential matches requiring review; recall is low (0.227), meaning it misses several of these cases.
+Class 2[eligible]  → Represents clear mismatches, with precision 1.0 but very low recall (0.033), showing strong confidence but few detected examples.
+
+📈 Overall Analysis
+------------------------------------------------------------
+• Accuracy: 71.8%
+• Weighted F1-Score: 0.592
+• The model performs well on identifying positive (class 0) samples.
+• Needs further fine-tuning on minority classes (1 and 2) for better balance.
+
+💾 Output Files
+------------------------------------------------------------
+1. patient_embeddings.csv → Encoded feature vectors of patient descriptions.
+2. trial_embeddings.csv   → Encoded feature vectors of trial eligibility texts.
+3. final_classifier.pkl   → Serialized trained XGBoost model ready for inference.
+4. results.txt            → This summary report.
+
+================================================================
