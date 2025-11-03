@@ -179,7 +179,7 @@ python app.py
 - ❌ Cache files (auto-generated)
 - ❌ Trec 2021 Datasets
 
-## My primary datasets were the TREC Clinical Trials 2021 track collections which consisted of mainly three files.
+## The primary datasets used in the training and testing were the TREC Clinical Trials 2021 track collections which consisted of mainly three files.
 TREC Clinical Trials Dataset
 1. TOPICS (≈50 patient cases): Each topic = a synthetic patient description (query)
 
@@ -189,3 +189,4 @@ TREC Clinical Trials Dataset
 
 
 ##💡 If you’re interested in collaborating or contributing to this project on Clinical Trial Matchmaking using GenAI and Machine Learning, feel free to reach out or open an issue, would love to connect with others passionate about AI in healthcare to discuss and work together to advance this research. 
+
