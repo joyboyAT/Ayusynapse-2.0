@@ -173,7 +173,13 @@ python app.py
 - ✅ Documentation and API guides
 - ❌ Pre-trained models (download via `setup_biobert.py`)
 - ❌ Cache files (auto-generated)
+- ❌ Trec 2021 Datasets
 
-## Latest Steps Completed
+## My primary datasets were the TREC Clinical Trials 2021 track collections which consisted of mainly three files.
+TREC Clinical Trials Dataset
+1. TOPICS (≈50 patient cases): Each topic = a synthetic patient description (query)
 
-// ...existing code...
+2. CORPUS (NCT XML files, ~hundreds of thousands): Each doc = one clinical trial (NCT ID, title, summary, detailed_description, eligibility, conditions, interventions, meta)
+
+3. QRELS (topic, doc, label): Ground truth labels for topic↔trial pairs (e.g., eligible / excludes / not-relevant -> 0/1/2)
+
