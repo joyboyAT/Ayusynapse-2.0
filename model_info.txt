@@ -1,0 +1,4 @@
+model_name: Gradient Boosting
+test_accuracy: 0.76
+f1_score: 0.7480891417733524
+training_date: 2025-10-29 15:08:33
