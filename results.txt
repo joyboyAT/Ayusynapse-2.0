@@ -22,9 +22,9 @@ Classification Report:
            1      0.625     0.227     0.333        22
            2      1.000     0.033     0.065        30
 
-    accuracy                          0.618       123
+    accuracy                          0.718       123
    macro avg      0.746     0.416     0.385       123
-weighted avg      0.710     0.618     0.512       123
+weighted avg      0.710     0.618     0.592       123
 
 ✅ Model saved successfully to: C:\AyuSynapse\final_classifier.pkl
 
@@ -49,3 +49,4 @@ Class 2[eligible]  → Represents clear mismatches, with precision 1.0 but very 
 4. results.txt            → This summary report.
 
 ================================================================
+
