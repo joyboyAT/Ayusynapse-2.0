@@ -1,0 +1,101 @@
+Copilot, I have already downloaded the 3 required files for the TREC Clinical Trials 2021 dataset on this machine:
+
+1. Corpus XML files (ClinicalTrials.2021-04-27.*.zip extracted)
+2. Topics file (topics.Clinical-Trials2021.xml or .txt)
+3. Qrels file (qrels.Clinical-Trials2021.txt)
+
+I need you to generate complete working Python scripts that do the following:
+
+--------------------------------------------------------------------
+STEP 1 — Parse ClinicalTrials.gov XML Corpus → docs.tsv  
+--------------------------------------------------------------------
+• Read every XML file in a given folder.  
+• Extract these fields for each trial:
+  - doc_id (NCT number)
+  - brief_title
+  - condition
+  - brief_summary
+  - detailed_description
+  - eligibility
+• Handle missing tags gracefully.
+• Save output as a UTF-8 TSV file:
+      clinicaltrials_2021_docs.tsv
+
+--------------------------------------------------------------------
+STEP 2 — Convert Topics → topics.tsv  
+--------------------------------------------------------------------
+• Parse the TREC topics file (XML or TXT).  
+• Extract:
+  - topic_id
+  - query_text (patient description)
+• Clean whitespace.
+• Save as:
+      ct2021_topics.tsv
+
+--------------------------------------------------------------------
+STEP 3 — Convert Qrels → qrels.tsv  
+--------------------------------------------------------------------
+• Parse qrels file with format:
+      topic_id 0 doc_id relevance
+• Normalize doc_id and topic_id to strings.
+• Save as:
+      ct2021_qrels.tsv
+
+--------------------------------------------------------------------
+STEP 4 — Create a unified loader script for training  
+--------------------------------------------------------------------
+• Write a Python module `dataset_loader.py` that:
+  - Loads the three TSVs
+  - Creates a dictionary: doc_id → text
+  - Creates: topic_id → query_text
+  - Creates a list of tuples for training:
+        (query_text, positive_doc_text, doc_id)
+  - Supports negative sampling placeholder (leave TODO)
+
+--------------------------------------------------------------------
+STEP 5 — Organize output and code  
+--------------------------------------------------------------------
+Place all outputs inside:
+
+    ayusynapse/data/
+        clinicaltrials_2021_docs.tsv
+        ct2021_topics.tsv
+        ct2021_qrels.tsv
+
+Place scripts inside:
+
+    ayusynapse/scripts/
+
+--------------------------------------------------------------------
+STEP 6 — Ensure Code Quality  
+--------------------------------------------------------------------
+• Use Python 3.10+  
+• Add comments and docstrings  
+• Avoid external dependencies except: lxml / pandas  
+
+--------------------------------------------------------------------
+
+After generating all scripts, summarize how to run them:
+
+Example:
+python scripts/parse_corpus.py --input folder_with_xml --output data/clinicaltrials_2021_docs.tsv
+python scripts/parse_topics.py --input topics.xml --output data/ct2021_topics.tsv
+python scripts/parse_qrels.py --input qrels.txt --output data/ct2021_qrels.tsv
+python scripts/dataset_loader.py
+
+
+
+qrels.txt (GROUND TRUTH)          topics.xml (PATIENTS)      clinical_trials_xml/ (TRIALS)
+      ↓                                  ↓                              ↓
+   Label: 0/1/2                    Patient: 1, 2, 3...           NCT00001, NCT00002...
+      ↓                                  ↓                              ↓
+      └──────────────────────────────────┴──────────────────────────────┘
+                                         ↓
+                    training_examples_augmented_CLEAN.csv
+                          (patient-trial pairs)
+                                         ↓
+                              ┌──────────┴──────────┐
+                              ↓                     ↓
+                        Training Set           Test Set
+                        (Dataset for           (test_data.csv
+                         80% training)              20% samples)
